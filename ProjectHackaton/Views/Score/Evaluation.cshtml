@@ -1,0 +1,122 @@
+﻿@{ ViewData["Title"] = "Please, rate the quality of service";
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken();
+}
+<div id="wrapper"></div>
+<h1 style="text-align:center; font-family: Arial; margin-top: 30px; margin-bottom: -50px;">Оцените качество обслуживания</h1>
+<div style="display:flex; justify-content:space-around; align-items:center; width: 100%; height: 90vh;margin: 0 auto;">
+    <div class="main_btn" onclick="sendScore(1); SayThanks()">
+        <p style="font-size: 32px; font-family: Arial">Очень <br />  плохo</p>
+    </div>
+    <div class="main_btn" onclick="sendScore(2); SayThanks()">
+        <p style="font-size: 32px; font-family: Arial">Плохо</p>
+    </div>
+    <div class="main_btn" onclick="sendScore(3); SayThanks()">
+        <p style="font-size: 32px; font-family: Arial">Хорошо</p>
+    </div>
+    <div class="main_btn" onclick="sendScore(4); SayThanks()">
+        <p style="font-size: 32px; font-family: Arial">Очень <br />  хорошо</p>
+    </div>
+    <div class="main_btn" onclick="sendScore(5); SayThanks()">
+        <p style="font-size:32px; font-family:Arial">Отлично</p>
+    </div>
+</div>
+<div id="thanks">
+    <div style="text-align:center; font-size: 48px;display:flex;align-items:center;justify-content:center;">
+        <span id="result"></span>
+    </div>
+</div>
+<div style="justify-content:center;text-align:center;">
+    <a asp-action="Index" asp-controller="Home" class="btn btn-outline-primary">Назад</a>
+</div>
+
+
+<style>
+    #wrapper {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        opacity: 0;
+        background-color: gray;
+        transition: 0.5s ease-in-out;
+    }
+    #thanks {
+        z-index: -1;
+        position: absolute;
+        width: 30%;
+        left: 35%;
+        top: 35%;
+        padding: 40px 0;
+        margin: 0 auto;
+        background-color: white;
+        border-radius: 20px;
+        transition: 0.5s ease-in-out;
+    }
+
+    .main_btn {
+        width: 18%;
+        height: 70vh;
+        border-radius: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 4px 4px 0px 0px rgb(15,15,15);
+        position:relative;
+        text-align:center;
+        color:black;
+    }
+
+        .main_btn:nth-child(1) {
+            background-color: rgb(116, 0, 0);
+        }
+
+        .main_btn:nth-child(2) {
+            background-color: rgb(212, 0, 0);
+        }
+
+        .main_btn:nth-child(3) {
+            background-color: rgb(184, 184, 15);
+        }
+
+        .main_btn:nth-child(4) {
+            background-color: rgb(47, 182, 47);
+        }
+
+        .main_btn:nth-child(5) {
+            background-color: green;
+        }
+</style>
+<script type="text/javascript">
+    this.sendScore = (scored) => {
+        let url = `/Score/Evaluation?scored=${scored}`;
+        $.ajax({
+            type: "POST",
+            url: url,
+            error: function (result) {
+                alert(`Error has occured: ${result}`);
+            },
+            success: function (result) {
+                $("#result").html(result);
+            }
+        });
+    };
+    function SayThanks() {
+        var thanks = document.getElementById("thanks");
+        var wrapper = document.getElementById("wrapper");
+        thanks.style.zIndex = 2;
+        thanks.style.opacity = 1;
+        wrapper.style.opacity = 0.9;
+        wrapper.style.zIndex = 1;
+        setTimeout(function () {
+            thanks.style.opacity = 0;
+            thanks.style.zIndex = -1;
+            wrapper.style.opacity = 0;
+            wrapper.style.zIndex = -1;
+        }, 2000);
+    }
+</script>

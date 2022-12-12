@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Votes.ViewModels.ScoreViewModel>
+
+@{
+    ViewData["Title"] = "Ваши Оценки";
+}
+
+<h2>Ваши оценки</h2>
+
+<div style="text-align:center; margin: 30px auto">
+    <a asp-action="Index" asp-controller="Home" class="btn btn-outline-primary">Назад</a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Scored)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Created)
+            </th>
+            <th style="text-align:center">
+                @Html.DisplayNameFor(model => model.AverageScore)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model)
+            {
+        <tr>
+            <td>
+                -
+            </td>
+            <td>
+                -
+            </td>
+            <td style="text-align:center">
+                @Html.DisplayFor(modelItem => item.AverageScore)
+            </td>
+        </tr>
+    break;
+
+}
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Scored)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Created)
+            </td>
+            <td>
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
